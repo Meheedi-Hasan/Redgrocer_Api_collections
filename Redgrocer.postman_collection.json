@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "fcbe0dd7-4744-db49-de92-2e47e7adae12",
+		"name": "Redgrocer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21350558"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "sakib",
+							"type": "text"
+						},
+						{
+							"key": "email_or_phone",
+							"value": "sakib@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "register_by",
+							"value": "phone",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/auth/signup",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResponse = pm.response.json();\r",
+							"pm.collectionVariables.set(\"Access_Token\", jsonResponse.access_token);\r",
+							"console.log(jsonResponse.access_token);\r",
+							"console.log(jsonResponse.user.id);\r",
+							"console.log(jsonResponse.user.phone);\r",
+							"\r",
+							"pm.collectionVariables.set(\"id\",jsonResponse.user.id);\r",
+							"pm.collectionVariables.set(\"phone\",jsonResponse.user.phone);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "sakib@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "identity_matrix",
+							"value": "911e7c7e-6cc4-477f-b757-4c07b37aad31",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/auth/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "501",
+							"type": "text"
+						},
+						{
+							"key": "verification_code",
+							"value": "737975",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/auth/confirm_code",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"auth",
+						"confirm_code"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Categories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/categories",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OTP",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/auth/otp-send/phonenum",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"auth",
+						"otp-send",
+						"phonenum"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cart Summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/cart-summary/{{id}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"cart-summary",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/v2/products/category/13?page=1",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"v2",
+						"products",
+						"category",
+						"13"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Access_Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Base_Url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "phone",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Access_Token",
+			"value": ""
+		}
+	]
+}
